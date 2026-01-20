@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lista de Presentes – Marina</title>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#e0f7fa}
+header{background:linear-gradient(135deg,#0288d1,#26c6da);color:#fff;text-align:center;padding:30px}
+section{max-width:900px;margin:auto;padding:20px}
+.card{background:#fff;border-radius:12px;padding:15px;margin:10px 0;box-shadow:0 3px 6px rgba(0,0,0,.1)}
+button{background:#26a69a;color:#fff;border:none;padding:10px 15px;border-radius:8px;cursor:pointer}
+button:disabled{background:#ccc}
+footer{text-align:center;padding:15px;color:#555}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5)}
+.modal-content{background:#fff;max-width:300px;margin:15% auto;padding:20px;border-radius:10px;text-align:center}
+input{width:100%;padding:8px;margin-top:10px}
+</style>
+</head>
+<body>
+<header>
+<h1>🐠 Lista de Presentes – Marina 🎉</h1>
+<p>Tema: Fundo do Mar | 28/02/2026</p>
+</header>
+<section id="lista"></section>
+<footer>
+<p>Obrigado por participar desse momento especial 💙💚</p>
+</footer>
+
+<div class="modal" id="modal">
+<div class="modal-content">
+<h3>Seu nome</h3>
+<input id="nome" placeholder="Digite seu nome">
+<button onclick="confirmar()">Confirmar</button>
+</div>
+</div>
+
+<script>
+// CONFIGURAÇÃO FIREBASE
+const firebaseConfig = {
+  apiKey: "AIzaSyDpRdW4AyCY6-65Au1amIbA2whPcB93QZM",
+  authDomain: "aniversariomarina-48c48.firebaseapp.com",
+  databaseURL: "https://aniversariomarina-48c48-default-rtdb.firebaseio.com",
+  projectId: "aniversariomarina-48c48",
+  storageBucket: "aniversariomarina-48c48.appspot.com",
+  messagingSenderId: "84323848308",
+  appId: "1:84323848308:web:bc5d0acfecb33a04d20121"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+const presentes = [
+"LISTA DE PRESENTES – ANIVERSÁRIO 2 ANOS",
+
+"Pelúcia da Skye — <a href='https://www.amazon.com.br/s?k=pelucia+skye+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+"Pelúcia do Chase — <a href='https://www.amazon.com.br/s?k=pelucia+chase+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+"Pelúcia do Marshall — <a href='https://www.amazon.com.br/s?k=pelucia+marshall+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+"Kit mini bonecos Patrulha Canina — <a href='https://www.amazon.com.br/s?k=bonecos+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+"Veículos dos personagens — <a href='https://www.amazon.com.br/s?k=veiculos+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+"Torre de resgate — <a href='https://www.amazon.com.br/s?k=torre+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+"Mochila Patrulha Canina — <a href='https://www.amazon.com.br/s?k=mochila+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+"Copo infantil Patrulha Canina — <a href='https://www.amazon.com.br/s?k=copo+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+"Kit alimentação Patrulha Canina — <a href='https://www.amazon.com.br/s?k=kit+alimentacao+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+"Quebra-cabeça Patrulha Canina — <a href='https://www.amazon.com.br/s?k=quebra+cabeça+patrulha+canina' target='_blank'>Sugestão de compra</a>",
+
+"\n=== ROUPAS (TAMANHO 3 ANOS) ===",
+"Vestido infantil — <a href='https://www.amazon.com.br/s?k=vestido+infantil+3+anos' target='_blank'>Sugestão de compra</a>",
+"Camisetas infantis — <a href='https://www.amazon.com.br/s?k=camiseta+infantil+3+anos' target='_blank'>Sugestão de compra</a>",
+"Pijama infantil — <a href='https://www.amazon.com.br/s?k=pijama+infantil+3+anos' target='_blank'>Sugestão de compra</a>",
+"Conjunto camiseta; short — <a href='https://www.amazon.com.br/s?k=conjunto+infantil+3+anos' target='_blank'>Sugestão de compra</a>",
+"Macacão infantil — <a href='https://www.amazon.com.br/s?k=macacao+infantil+3+anos' target='_blank'>Sugestão de compra</a>",
+"Moletom infantil — <a href='https://www.amazon.com.br/s?k=moletom+infantil' target='_blank'>Sugestão de compra</a>",
+"Jaqueta infantil — <a href='https://www.amazon.com.br/s?k=jaqueta+infantil' target='_blank'>Sugestão de compra</a>",
+
+"\n=== CALÇADOS ===",
+"Tênis infantil confortável — <a href='https://www.amazon.com.br/s?k=tenis+infantil' target='_blank'>Sugestão de compra</a>",
+"Sapatilha infantil — <a href='https://www.amazon.com.br/s?k=sapatilha+infantil' target='_blank'>Sugestão de compra</a>",
+"Sandália infantil — <a href='https://www.amazon.com.br/s?k=sandalia+infantil' target='_blank'>Sugestão de compra</a>",
+"Papete infantil — <a href='https://www.amazon.com.br/s?k=papete+infantil' target='_blank'>Sugestão de compra</a>",
+"Bota infantil — <a href='https://www.amazon.com.br/s?k=bota+infantil' target='_blank'>Sugestão de compra</a>",
+
+"\n=== BRINQUEDOS EDUCATIVOS ===",
+"Blocos de montar grandes — <a href='https://www.amazon.com.br/s?k=blocos+de+montar+infantil' target='_blank'>Sugestão de compra</a>",
+"Quebra-cabeça madeira — <a href='https://www.amazon.com.br/s?k=quebra+cabeça+madeira+infantil' target='_blank'>Sugestão de compra</a>",
+"Brinquedo de encaixe — <a href='https://www.amazon.com.br/s?k=brinquedo+de+encaixe' target='_blank'>Sugestão de compra</a>",
+"Painel sensorial — <a href='https://www.amazon.com.br/s?k=painel+sensorial+infantil' target='_blank'>Sugestão de compra</a>",
+"Livro interativo — <a href='https://www.amazon.com.br/s?k=livro+infantil+interativo' target='_blank'>Sugestão de compra</a>",
+"Jogo de memória infantil — <a href='https://www.amazon.com.br/s?k=jogo+memoria+infantil' target='_blank'>Sugestão de compra</a>",
+"Tapete educativo — <a href='https://www.amazon.com.br/s?k=tapete+educativo' target='_blank'>Sugestão de compra</a>",
+
+"\n=== BRINQUEDOS INTERATIVOS ===",
+"Tablet infantil educativo — <a href='https://www.amazon.com.br/s?k=tablet+infantil' target='_blank'>Sugestão de compra</a>",
+"Celular de brinquedo — <a href='https://www.amazon.com.br/s?k=celular+infantil+brinquedo' target='_blank'>Sugestão de compra</a>",
+"Brinquedo com luz e som — <a href='https://www.amazon.com.br/s?k=brinquedo+luz+som' target='_blank'>Sugestão de compra</a>",
+"Livro musical — <a href='https://www.amazon.com.br/s?k=livro+musical+infantil' target='_blank'>Sugestão de compra</a>",
+"Boneca interativa — <a href='https://www.amazon.com.br/s?k=boneca+interativa' target='_blank'>Sugestão de compra</a>",
+
+"\n=== BRINQUEDOS DE MOVIMENTO ===",
+"Triciclo infantil — <a href='https://www.amazon.com.br/s?k=triciclo+infantil' target='_blank'>Sugestão de compra</a>",
+"Carrinho empurrável — <a href='https://www.amazon.com.br/s?k=carrinho+empurravel' target='_blank'>Sugestão de compra</a>",
+"Piscina de bolinhas — <a href='https://www.amazon.com.br/s?k=piscina+de+bolinhas' target='_blank'>Sugestão de compra</a>",
+"Escorregador infantil — <a href='https://www.amazon.com.br/s?k=escorregador+infantil' target='_blank'>Sugestão de compra</a>",
+"Túnel de brincar — <a href='https://www.amazon.com.br/s?k=tunel+infantil' target='_blank'>Sugestão de compra</a>",
+"Cavalinho de balanço — <a href='https://www.amazon.com.br/s?k=cavalinho+balanco' target='_blank'>Sugestão de compra</a>",
+
+"\n=== CRIATIVIDADE ===",
+"Massinha atóxica — <a href='https://www.amazon.com.br/s?k=massinha+infantil' target='_blank'>Sugestão de compra</a>",
+"Kit pintura infantil — <a href='https://www.amazon.com.br/s?k=kit+pintura+infantil' target='_blank'>Sugestão de compra</a>",
+"Lousa mágica — <a href='https://www.amazon.com.br/s?k=lousa+magica' target='_blank'>Sugestão de compra</a>",
+"Livro de colorir infantil — <a href='https://www.amazon.com.br/s?k=livro+colorir+infantil' target='_blank'>Sugestão de compra</a>",
+"Adesivos infantis — <a href='https://www.amazon.com.br/s?k=adesivos+infantis' target='_blank'>Sugestão de compra</a>",
+
+"\n=== ROTINA E USO DIÁRIO ===",
+"Mochila infantil — <a href='https://www.amazon.com.br/s?k=mochila+infantil' target='_blank'>Sugestão de compra</a>",
+"Garrafinha térmica — <a href='https://www.amazon.com.br/s?k=garrafa+infantil' target='_blank'>Sugestão de compra</a>",
+"Kit lancheira — <a href='https://www.amazon.com.br/s?k=lancheira+infantil' target='_blank'>Sugestão de compra</a>",
+"Kit escova de dentes infantil — <a href='https://www.amazon.com.br/s?k=kit+escova+infantil' target='_blank'>Sugestão de compra</a>",
+"Prato e talheres infantis — <a href='https://www.amazon.com.br/s?k=kit+alimentacao+infantil' target='_blank'>Sugestão de compra</a>",
+
+"\n=== PRESENTES EXPERIÊNCIA ===",
+"Sessão de fotos infantil",
+"Passeio em espaço kids",
+"Dia no zoológico ou fazendinha",
+"Aula de música infantil",
+"Oficina de pintura para crianças",
+];
+
+function slug(text){
+  return text
+  .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^a-zA-Z0-9]/g, '_')
+  .toLowerCase();
+}
+
+let escolhido=null;
+const lista=document.getElementById('lista');
+
+function carregar(){
+lista.innerHTML="",
+presentes.forEach(p=>{
+const key = slug(p);
+const ref=db.ref('presentes/'+key);
+ref.on('value',snap=>{
+render(p,snap.val());
+});
+});
+}
+
+function render(p,val){
+const card=document.createElement('div');
+card.className='card';
+card.innerHTML=`<strong>🎁 ${p}</strong><br>`;
+if(val){
+card.innerHTML+=`<p>❌ Já escolhido por ${val}</p>`;
+}else{
+//const btn=document.createElement('button');
+// btn.textContent='Vou levar esse';
+//btn.onclick=()=>abrirModal(p);
+//card.appendChild(btn);
+}
+lista.appendChild(card);
+}
+
+function abrirModal(p){
+escolhido=p;
+document.getElementById('modal').style.display='block';
+}
+
+function confirmar(){
+const nome=document.getElementById('nome').value;
+if(nome){
+const key=slug(escolhido);
+db.ref('presentes/'+key).set(nome);
+document.getElementById('modal').style.display='none';
+}
+}
+
+carregar();
+</script>
+</body>
+</html>
