@@ -133,25 +133,30 @@ footer{
 
 <script>
 const presentes={
- patrulha:[
+ brinquedos:[
+  "Brinquedos 3 palavrinhas - https://www.amazon.com.br/s?k=brinquedos+3+palavrinhas",
   "Pelúcia Skye - https://www.amazon.com.br/s?k=pelucia+skye+patrulha+canina",
   "Pelúcia Chase - https://www.amazon.com.br/s?k=pelucia+chase+patrulha+canina",
   "Veículos - https://www.amazon.com.br/s?k=veiculos+patrulha+canina",
-  "Torre de resgate - https://www.amazon.com.br/s?k=torre+patrulha+canina"
+  "Torre de resgate - https://www.amazon.com.br/s?k=torre+patrulha+canina",
+  "Bonecas em geral - https://www.amazon.com.br/s?k=bonecas",
+  "Boneca Barbie - https://www.amazon.com.br/s?k=boneca+barbie"
  ],
 
  roupas:[
   "Vestido infantil - https://www.amazon.com.br/s?k=vestido+infantil",
-  "Pijama - https://www.amazon.com.br/s?k=pijama+infantil",
-  "Conjunto verão - https://www.amazon.com.br/s?k=conjunto+infantil"
+  "Pijama - https://www.amazon.com.br/s?k=pijama+infantil+feminino",
+  "Conjunto verão - https://www.amazon.com.br/s?k=conjunto+infantil+feminino"
  ],
 
  calcados:[
-  "Tênis infantil - https://www.amazon.com.br/s?k=tenis+infantil",
-  "Sandália - https://www.amazon.com.br/s?k=sandalia+infantil"
+  "Tênis infantil - https://www.amazon.com.br/s?k=tenis+infantil+feminino",
+  "Sandália - https://www.amazon.com.br/s?k=sandalia+infantil+feminina"
  ],
 
  educativos:[
+  "Biblia Infantil - https://www.amazon.com.br/s?k=biblia+infantil",
+  "Livros 3 palavrinhas - https://www.amazon.com.br/s?k=livros+3+palavrinhas",
   "Blocos de montar - https://www.amazon.com.br/s?k=blocos+de+montar",
   "Quebra-cabeça - https://www.amazon.com.br/s?k=quebra+cabeça+infantil"
  ],
@@ -161,24 +166,10 @@ const presentes={
   "Boneca interativa - https://www.amazon.com.br/s?k=boneca+interativa"
  ],
 
- movimento:[
-  "Triciclo - https://www.amazon.com.br/s?k=triciclo+infantil",
-  "Piscina de bolinhas - https://www.amazon.com.br/s?k=piscina+de+bolinhas"
- ],
-
- criatividade:[
-  "Massinha - https://www.amazon.com.br/s?k=massinha+infantil",
-  "Kit pintura - https://www.amazon.com.br/s?k=kit+pintura+infantil"
- ],
-
  rotina:[
-  "Mochila - https://www.amazon.com.br/s?k=mochila+infantil",
-  "Garrafinha - https://www.amazon.com.br/s?k=garrafa+infantil"
- ],
-
- experiencias:[
-  "Zoológico - https://www.google.com/search?q=zoologico+perto+de+mim",
-  "Espaço kids - https://www.google.com/search?q=espaco+kids+perto+de+mim"
+  "Piscina de bolinhas - https://www.amazon.com.br/s?k=piscina+de+bolinhas",
+  "Garrafinha - https://www.amazon.com.br/s?k=garrafa+infantil+feminina",
+  "Kit pintura - https://www.amazon.com.br/s?k=kit+pintura+infantil"
  ]
 };
 
@@ -199,15 +190,12 @@ function render(t,it){
 }
 
 lista.innerHTML=
- render("🐾 Patrulha Canina",presentes.patrulha)+
- render("👗 Roupas",presentes.roupas)+
- render("👟 Calçados",presentes.calcados)+
+ render("🧸 Brinquedos em Geral",presentes.brinquedos)+
+ render("👗 Roupas (Tamanho 3 anos)",presentes.roupas)+
+ render("👟 Calçados (Tamanhos 24/25)",presentes.calcados)+
  render("🧠 Educativos",presentes.educativos)+
  render("🤖 Interativos",presentes.interativos)+
- render("🏃 Movimento",presentes.movimento)+
- render("🎨 Criatividade",presentes.criatividade)+
- render("🎒 Rotina",presentes.rotina)+
- render("🎁 Experiências",presentes.experiencias);
+ render("🎒 Rotina",presentes.rotina);
 
 /* BOLHAS */
 for(let i=0;i<12;i++){
